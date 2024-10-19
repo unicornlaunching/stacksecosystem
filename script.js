@@ -128,6 +128,140 @@ document.addEventListener('DOMContentLoaded', () => {
                     { name: "Stacks Twitter", url: "https://twitter.com/Stacks" },
                     { name: "Stacks YouTube", url: "https://www.youtube.com/c/Stacks" }
                 ]
+            },
+            {
+                name: "Key People",
+                children: [
+                    {
+                        name: "Founders & Core Team",
+                        children: [
+                            { name: "Muneeb Ali", description: "Co-founder of Stacks, CEO of Trust Machines" },
+                            { name: "Ryan Shea", description: "Co-founder of Stacks" },
+                            { name: "Jude Nelson", description: "Principal Engineer at Stacks Foundation" },
+                            { name: "Aaron Blankstein", description: "Engineer at Hiro Systems" },
+                            { name: "Diwaker Gupta", description: "Head of Technology at Hiro" },
+                            { name: "Mitchell Cuevas", description: "Head of Growth at Stacks Foundation" },
+                            { name: "Jenny Mith", description: "Executive Director of Stacks Foundation" },
+                            { name: "Patrick Stanley", description: "Founder of Freehold" },
+                            { name: "Brittany Laughlin", description: "Executive Director at Stacks Foundation" },
+                            { name: "Jesse Soslow", description: "Head of Legal and Regulatory Affairs at Hiro" }
+                        ]
+                    },
+                    {
+                        name: "Advisors",
+                        children: [
+                            { name: "Naval Ravikant", description: "Founder of AngelList" },
+                            { name: "Albert Wenger", description: "Managing Partner at Union Square Ventures" },
+                            { name: "Meltem Demirors", description: "CSO of CoinShares" },
+                            { name: "Michael Terpin", description: "Founder of Transform Group" },
+                            { name: "William Mougayar", description: "Author and blockchain advisor" }
+                        ]
+                    },
+                    {
+                        name: "Investors",
+                        children: [
+                            {
+                                name: "Stacks Ecosystem Investors",
+                                children: [
+                                    { name: "Union Square Ventures", description: "VC firm, early investor in Stacks" },
+                                    { name: "Winklevoss Capital", description: "Investment firm founded by Tyler and Cameron Winklevoss" },
+                                    { name: "Blockchain Capital", description: "Venture capital firm focusing on blockchain" },
+                                    { name: "Digital Currency Group", description: "Company focusing on the digital currency market" },
+                                    { name: "Draper Associates", description: "VC firm founded by Tim Draper" },
+                                    { name: "Fenbushi Capital", description: "Venture capital firm focusing on blockchain-enabled companies" },
+                                    { name: "Lux Capital", description: "VC firm investing in emerging technologies" },
+                                    { name: "Rising Tide", description: "VC firm" },
+                                    { name: "Y Combinator", description: "Startup accelerator" },
+                                    { name: "Coinbase Ventures", description: "Investment arm of Coinbase" }
+                                ]
+                            },
+                            {
+                                name: "ALEX Investors",
+                                children: [
+                                    { name: "OKX Blockdream Ventures", description: "Venture arm of OKX exchange" },
+                                    { name: "STV", description: "Blockchain-focused venture capital firm" },
+                                    { name: "Mirana Ventures", description: "Venture capital firm" },
+                                    { name: "Hack VC", description: "Crypto-native venture fund" },
+                                    { name: "Digital Currency Group", description: "Company focusing on the digital currency market" }
+                                ]
+                            },
+                            {
+                                name: "Xverse Investors",
+                                children: [
+                                    { name: "Digital Currency Group", description: "Company focusing on the digital currency market" },
+                                    { name: "Blockchain Founders Fund", description: "Venture capital firm" },
+                                    { name: "Mechanism Capital", description: "Crypto-focused investment firm" },
+                                    { name: "OKX Blockdream Ventures", description: "Venture arm of OKX exchange" },
+                                    { name: "Hivemind", description: "Crypto-focused venture fund" }
+                                ]
+                            },
+                            {
+                                name: "Zest Protocol Investors",
+                                children: [
+                                    { name: "Draper Associates", description: "VC firm founded by Tim Draper" },
+                                    { name: "Binance Labs", description: "Venture arm of Binance exchange" },
+                                    { name: "Flow Traders", description: "Global trading firm" },
+                                    { name: "Trust Machines", description: "Company building on Bitcoin through Stacks" },
+                                    { name: "Hivemind", description: "Crypto-focused venture fund" },
+                                    { name: "Cadenza", description: "Venture capital firm" }
+                                ]
+                            },
+                            {
+                                name: "Velar Investors",
+                                children: [
+                                    { name: "Blockchain Founders Fund", description: "Venture capital firm" },
+                                    { name: "Blockwall Capital", description: "Blockchain and crypto investment firm" },
+                                    { name: "Moonrock Capital", description: "Blockchain advisory and investment firm" },
+                                    { name: "Woodstock Fund", description: "Multi-asset investment fund" }
+                                ]
+                            },
+                            {
+                                name: "Other Project Investors",
+                                children: [
+                                    { name: "Stacks Foundation", description: "Non-profit organization supporting Stacks ecosystem" },
+                                    { name: "Trust Machines", description: "Company building on Bitcoin through Stacks" },
+                                    { name: "Freehold", description: "Community-focused organization in Stacks ecosystem" },
+                                    { name: "Mechanism Capital", description: "Crypto-focused investment firm" },
+                                    { name: "1confirmation", description: "Crypto-focused venture capital firm" },
+                                    { name: "Collider Ventures", description: "Early-stage venture capital firm" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Project Leaders",
+                        children: [
+                            { name: "Marvin Janssen", description: "Co-founder of ALEX" },
+                            { name: "Chiente Hsu", description: "Co-founder of ALEX" },
+                            { name: "Ken Liao", description: "Co-founder of Arkadiko" },
+                            { name: "Philip De Smedt", description: "Co-founder of Arkadiko" },
+                            { name: "Jamil Dhanani", description: "Founder of Zest Protocol" },
+                            { name: "Léonard Salomon", description: "Founder of Lydian" },
+                            { name: "Phillip Roe", description: "Co-founder of Megapont" },
+                            { name: "Yannick Folla", description: "Co-founder of Gamma" }
+                        ]
+                    },
+                    {
+                        name: "Community Leaders",
+                        children: [
+                            { name: "Thomas Osmonson", description: "Stacks community developer" },
+                            { name: "Xan Ditkoff", description: "Growth lead at Stacks Foundation" },
+                            { name: "Jason Schrader", description: "Developer advocate" },
+                            { name: "Brice Dobry", description: "Community manager" },
+                            { name: "Fernando Hernandez", description: "Developer relations at Hiro" }
+                        ]
+                    },
+                    {
+                        name: "Technical Contributors",
+                        children: [
+                            { name: "Friedger Müffke", description: "Stacks core developer" },
+                            { name: "Ludo Galabru", description: "Engineer at Hiro" },
+                            { name: "Ken Liao", description: "Clarity language contributor" },
+                            { name: "Hank Stoever", description: "Engineer at Hiro" },
+                            { name: "Matthew Little", description: "Stacks core developer" }
+                        ]
+                    }
+                ]
             }
         ]
     };
@@ -316,5 +450,6 @@ const colorScheme = {
     "Education": "#E74C3C",
     "Governance": "#3498DB",
     "Community": "#F39C12",
+    "Key People": "#1ABC9C",
     "default": "#CCCCCC"
 };
