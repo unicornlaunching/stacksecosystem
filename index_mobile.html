@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacks Ecosystem Mobile Map</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        #visualization {
+            width: 100%;
+            height: 100%;
+        }
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 2px;
+        }
+        .node text {
+            font: 10px sans-serif;
+        }
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1px;
+        }
+        #infoPanel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            display: none;
+        }
+        #closeInfo {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="visualization"></div>
+    <div id="infoPanel">
+        <span id="closeInfo">×</span>
+        <h3 id="infoTitle"></h3>
+        <p id="infoDescription"></p>
+        <a id="infoLink" target="_blank"></a>
+    </div>
+
+    <script>
+        const data = {
+            name: "Stacks Ecosystem",
+            children: [
+                {
+                    name: "Core Infrastructure",
+                    children: [
+                        { name: "Stacks Blockchain", url: "https://www.stacks.co/" },
+                        { name: "Clarity Smart Contracts", url: "https://clarity-lang.org/" },
+                        { name: "Proof of Transfer (PoX)", url: "https://docs.stacks.co/understand-stacks/proof-of-transfer" },
+                        { name: "Stacks 2.0", url: "https://www.stacks.co/stacks-2" },
+                        { name: "Nakamoto Release", url: "https://stacks.org/nakamoto" },
+                        { name: "sBTC", url: "https://www.stacks.co/sbtc" }
+                    ]
+                },
+                {
+                    name: "Wallets",
+                    children: [
+                        { name: "Xverse", url: "https://www.xverse.app/" },
+                        { name: "Hiro Wallet", url: "https://wallet.hiro.so/" },
+                        { name: "Stack Wallet", url: "https://stackswallet.com/" },
+                        { name: "Leather", url: "https://leather.io/" },
+                        { name: "MyStacks Wallet", url: "https://www.mystacks.xyz/" },
+                        { name: "Boom Wallet", url: "https://boom.money/" }
+                    ]
+                },
+                {
+                    name: "Exchanges",
+                    children: [
+                        { name: "Binance", url: "https://www.binance.com/en/trade/STX_USDT" },
+                        { name: "OKX", url: "https://www.okx.com/trade-spot/stx-usdt" },
+                        { name: "Bybit", url: "https://www.bybit.com/en-US/trade/spot/STX/USDT" },
+                        { name: "KuCoin", url: "https://www.kucoin.com/trade/STX-USDT" },
+                        { name: "Gate.io", url: "https://www.gate.io/trade/STX_USDT" },
+                        { name: "Crypto.com", url: "https://crypto.com/exchange/trade/spot/STX_USDT" },
+                        { name: "Bitfinex", url: "https://trading.bitfinex.com/t/STX:USD" },
+                        { name: "Huobi", url: "https://www.huobi.com/en-us/exchange/stx_usdt" },
+                        { name: "Kraken", url: "https://www.kraken.com/prices/stx-stacks-price-chart/usd-us-dollar?interval=1m" }
+                    ]
+                },
+                {
+                    name: "DeFi",
+                    children: [
+                        { name: "ALEX", url: "https://www.alexgo.io/" },
+                        { name: "Arkadiko", url: "https://arkadiko.finance/" },
+                        { name: "Zest Protocol", url: "https://zestprotocol.com/" },
+                        { name: "LNSwap", url: "https://lnswap.org/" },
+                        { name: "Lydian", url: "https://lydian.xyz/" },
+                        { name: "Stackswap", url: "https://stackswap.org/" },
+                        { name: "Catamaran Swaps", url: "https://www.catamaranswaps.org/" },
+                        { name: "Bitflow", url: "https://bitflow.finance/" },
+                        { name: "STSW Token", url: "https://www.stsw.io/" },
+                        { name: "Stacks Degens", url: "https://stacksdegens.com/" }
+                    ]
+                },
+                {
+                    name: "NFTs",
+                    children: [
+                        { name: "Gamma", url: "https://gamma.io/" },
+                        { name: "STXNFT", url: "https://stxnft.com/" },
+                        { name: "Tradeport", url: "https://www.tradeport.xyz/" },
+                        { name: "Byzantion", url: "https://byzantion.xyz/" },
+                        { name: "Megapont", url: "https://megapont.com/" },
+                        { name: "StacksArt", url: "https://www.stacksart.com/" },
+                        { name: "Boom", url: "https://boom.money/" },
+                        { name: "Sigle", url: "https://www.sigle.io/" },
+                        { name: "Crashpunks", url: "https://crashpunks.com/" },
+                        { name: "Stacks Punks", url: "https://stackspunks.com/" }
+                    ]
+                },
+                {
+                    name: "Infrastructure",
+                    children: [
+                        { name: "Hiro", url: "https://www.hiro.so/" },
+                        { name: "Stacks Foundation", url: "https://stacks.org/" },
+                        { name: "Secret Key Labs", url: "https://secretkeylabs.com/" },
+                        { name: "Trust Machines", url: "https://trustmachines.co/" },
+                        { name: "Daemon Technologies", url: "https://daemontechnologies.co/" },
+                        { name: "Freehold", url: "https://joinfreehold.com/" },
+                        { name: "New Internet Labs", url: "https://newinternetlabs.com/" },
+                        { name: "Mechanism Capital", url: "https://www.mechanism.capital/" },
+                        { name: "Stacks Accelerator", url: "https://www.stacksaccelerator.com/" }
+                    ]
+                },
+                {
+                    name: "Developer Tools",
+                    children: [
+                        { name: "Clarinet", url: "https://github.com/hirosystems/clarinet" },
+                        { name: "Stacks.js", url: "https://github.com/hirosystems/stacks.js" },
+                        { name: "Clarity Tools", url: "https://clarity.tools/" },
+                        { name: "Stacks Explorer", url: "https://explorer.stacks.co/" },
+                        { name: "Stacks API", url: "https://docs.hiro.so/api" },
+                        { name: "Chainhook", url: "https://chainhook.rs/" },
+                        { name: "Clarity VSCode Extension", url: "https://marketplace.visualstudio.com/items?itemName=HiroSystems.clarity-lsp" },
+                        { name: "Stacks Blockchain API", url: "https://docs.hiro.so/api" },
+                        { name: "Stacks Node", url: "https://docs.stacks.co/understand-stacks/running-mainnet-node" }
+                    ]
+                },
+                {
+                    name: "Education",
+                    children: [
+                        { name: "Clarity Universe", url: "https://clarity-lang.org/universe" },
+                        { name: "Stacks Documentation", url: "https://docs.stacks.co/" },
+                        { name: "Stacks Academy", url: "https://stacks.academy/" },
+                        { name: "Learn Stacks", url: "https://learn.stacks.co/" },
+                        { name: "Clarity Book", url: "https://book.clarity-lang.org/" },
+                        { name: "Stacks Community", url: "https://community.stacks.org/" }
+                    ]
+                },
+                {
+                    name: "Governance",
+                    children: [
+                        { name: "Stacks Governance", url: "https://stacks.org/governance" },
+                        { name: "Stacks Improvement Proposals (SIPs)", url: "https://github.com/stacksgov/sips" },
+                        { name: "Stacks Foundation Grants", url: "https://stacks.org/grants" }
+                    ]
+                },
+                {
+                    name: "Community",
+                    children: [
+                        { name: "Stacks Discord", url: "https://discord.gg/stacks" },
+                        { name: "Stacks Forum", url: "https://forum.stacks.org/" },
+                        { name: "Stacks Telegram", url: "https://t.me/StacksChat" },
+                        { name: "Stacks Reddit", url: "https://www.reddit.com/r/stacks/" },
+                        { name: "Stacks Twitter", url: "https://twitter.com/Stacks" },
+                        { name: "Stacks YouTube", url: "https://www.youtube.com/c/Stacks" }
+                    ]
+                },
+                {
+                    name: "Key People",
+                    children: [
+                        {
+                            name: "Founders & Core Team",
+                            children: [
+                                { name: "Muneeb Ali", description: "Co-founder of Stacks, CEO of Trust Machines" },
+                                { name: "Ryan Shea", description: "Co-founder of Stacks" },
+                                { name: "Jude Nelson", description: "Principal Engineer at Stacks Foundation" },
+                                { name: "Aaron Blankstein", description: "Engineer at Hiro Systems" },
+                                { name: "Diwaker Gupta", description: "Head of Technology at Hiro" },
+                                { name: "Mitchell Cuevas", description: "Head of Growth at Stacks Foundation" },
+                                { name: "Jenny Mith", description: "Executive Director of Stacks Foundation" },
+                                { name: "Patrick Stanley", description: "Founder of Freehold" },
+                                { name: "Brittany Laughlin", description: "Executive Director at Stacks Foundation" },
+                                { name: "Jesse Soslow", description: "Head of Legal and Regulatory Affairs at Hiro" }
+                            ]
+                        },
+                        {
+                            name: "Advisors",
+                            children: [
+                                { name: "Naval Ravikant", description: "Founder of AngelList" },
+                                { name: "Albert Wenger", description: "Managing Partner at Union Square Ventures" },
+                                { name: "Meltem Demirors", description: "CSO of CoinShares" },
+                                { name: "Michael Terpin", description: "Founder of Transform Group" },
+                                { name: "William Mougayar", description: "Author and blockchain advisor" }
+                            ]
+                        },
+                        {
+                            name: "Investors",
+                            children: [
+                                {
+                                    name: "Stacks Ecosystem Investors",
+                                    children: [
+                                        { name: "Union Square Ventures", description: "VC firm, early investor in Stacks" },
+                                        { name: "Winklevoss Capital", description: "Investment firm founded by Tyler and Cameron Winklevoss" },
+                                        { name: "Blockchain Capital", description: "Venture capital firm focusing on blockchain" },
+                                        { name: "Digital Currency Group", description: "Company focusing on the digital currency market" },
+                                        { name: "Draper Associates", description: "VC firm founded by Tim Draper" },
+                                        { name: "Fenbushi Capital", description: "Venture capital firm focusing on blockchain-enabled companies" },
+                                        { name: "Lux Capital", description: "VC firm investing in emerging technologies" },
+                                        { name: "Rising Tide", description: "VC firm" },
+                                        { name: "Y Combinator", description: "Startup accelerator" },
+                                        { name: "Coinbase Ventures", description: "Investment arm of Coinbase" }
+                                    ]
+                                },
+                                {
+                                    name: "ALEX Investors",
+                                    children: [
+                                        { name: "OKX Blockdream Ventures", description: "Venture arm of OKX exchange" },
+                                        { name: "STV", description: "Blockchain-focused venture capital firm" },
+                                        { name: "Mirana Ventures", description: "Venture capital firm" },
+                                        { name: "Hack VC", description: "Crypto-native venture fund" },
+                                        { name: "Digital Currency Group", description: "Company focusing on the digital currency market" }
+                                    ]
+                                },
+                                {
+                                    name: "Xverse Investors",
+                                    children: [
+                                        { name: "Digital Currency Group", description: "Company focusing on the digital currency market" },
+                                        { name: "Blockchain Founders Fund", description: "Venture capital firm" },
+                                        { name: "Mechanism Capital", description: "Crypto-focused investment firm" },
+                                        { name: "OKX Blockdream Ventures", description: "Venture arm of OKX exchange" },
+                                        { name: "Hivemind", description: "Crypto-focused venture fund" }
+                                    ]
+                                },
+                                {
+                                    name: "Zest Protocol Investors",
+                                    children: [
+                                        { name: "Draper Associates", description: "VC firm founded by Tim Draper" },
+                                        { name: "Binance Labs", description: "Venture arm of Binance exchange" },
+                                        { name: "Flow Traders", description: "Global trading firm" },
+                                        { name: "Trust Machines", description: "Company building on Bitcoin through Stacks" },
+                                        { name: "Hivemind", description: "Crypto-focused venture fund" },
+                                        { name: "Cadenza", description: "Venture capital firm" }
+                                    ]
+                                },
+                                {
+                                    name: "Velar Investors",
+                                    children: [
+                                        { name: "Blockchain Founders Fund", description: "Venture capital firm" },
+                                        { name: "Blockwall Capital", description: "Blockchain and crypto investment firm" },
+                                        { name: "Moonrock Capital", description: "Blockchain advisory and investment firm" },
+                                        { name: "Woodstock Fund", description: "Multi-asset investment fund" }
+                                    ]
+                                },
+                                {
+                                    name: "Other Project Investors",
+                                    children: [
+                                        { name: "Stacks Foundation", description: "Non-profit organization supporting Stacks ecosystem" },
+                                        { name: "Trust Machines", description: "Company building on Bitcoin through Stacks" },
+                                        { name: "Freehold", description: "Community-focused organization in Stacks ecosystem" },
+                                        { name: "Mechanism Capital", description: "Crypto-focused investment firm" },
+                                        { name: "1confirmation", description: "Crypto-focused venture capital firm" },
+                                        { name: "Collider Ventures", description: "Early-stage venture capital firm" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "Project Leaders",
+                            children: [
+                                { name: "Marvin Janssen", description: "Co-founder of ALEX" },
+                                { name: "Chiente Hsu", description: "Co-founder of ALEX" },
+                                { name: "Ken Liao", description: "Co-founder of Arkadiko" },
+                                { name: "Philip De Smedt", description: "Co-founder of Arkadiko" },
+                                { name: "Jamil Dhanani", description: "Founder of Zest Protocol" },
+                                { name: "Léonard Salomon", description: "Founder of Lydian" },
+                                { name: "Phillip Roe", description: "Co-founder of Megapont" },
+                                { name: "Yannick Folla", description: "Co-founder of Gamma" }
+                            ]
+                        },
+                        {
+                            name: "Community Leaders",
+                            children: [
+                                { name: "Thomas Osmonson", description: "Stacks community developer" },
+                                { name: "Xan Ditkoff", description: "Growth lead at Stacks Foundation" },
+                                { name: "Jason Schrader", description: "Developer advocate" },
+                                { name: "Brice Dobry", description: "Community manager" },
+                                { name: "Fernando Hernandez", description: "Developer relations at Hiro" }
+                            ]
+                        },
+                        {
+                            name: "Technical Contributors",
+                            children: [
+                                { name: "Friedger Müffke", description: "Stacks core developer" },
+                                { name: "Ludo Galabru", description: "Engineer at Hiro" },
+                                { name: "Ken Liao", description: "Clarity language contributor" },
+                                { name: "Hank Stoever", description: "Engineer at Hiro" },
+                                { name: "Matthew Little", description: "Stacks core developer" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const colorScheme = {
+            "Core Infrastructure": "#FF6B6B",
+            "Wallets": "#4ECDC4",
+            "Exchanges": "#45B7D1",
+            "DeFi": "#FFA500",
+            "NFTs": "#7FDBFF",
+            "Infrastructure": "#9B59B6",
+            "Developer Tools": "#2ECC71",
+            "Education": "#E74C3C",
+            "Governance": "#3498DB",
+            "Community": "#F39C12",
+            "Key People": "#1ABC9C",
+            "default": "#CCCCCC"
+        };
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const svg = d3.select("#visualization")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2},${height / 2})`);
+
+        const radius = Math.min(width, height) / 2 - 50;
+
+        const tree = d3.tree()
+            .size([2 * Math.PI, radius])
+            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+
+        const root = tree(d3.hierarchy(data));
+
+        const link = svg.append("g")
+            .selectAll("path")
+            .data(root.links())
+            .join("path")
+            .attr("class", "link")
+            .attr("d", d3.linkRadial()
+                .angle(d => d.x)
+                .radius(d => d.y));
+
+        const node = svg.append("g")
+            .selectAll("g")
+            .data(root.descendants())
+            .join("g")
+            .attr("transform", d => `
+                rotate(${d.x * 180 / Math.PI - 90})
+                translate(${d.y},0)
+            `);
+
+        node.append("circle")
+            .attr("r", 4)
+            .attr("fill", d => colorScheme[d.data.name] || colorScheme.default);
+
+        node.append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
+            .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+            .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+            .text(d => d.data.name)
+            .style("font-size", "8px")
+            .style("fill", "#333")
+            .clone(true).lower()
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
+        node.on("click", (event, d) => {
+            const infoPanel = document.getElementById("infoPanel");
+            const infoTitle = document.getElementById("infoTitle");
+            const infoDescription = document.getElementById("infoDescription");
+            const infoLink = document.getElementById("infoLink");
+
+            infoTitle.textContent = d.data.name;
+            infoDescription.textContent = d.data.description || "No description available.";
+            
+            if (d.data.url) {
+                infoLink.href = d.data.url;
+                infoLink.textContent = "Learn More";
+            } else {
+                infoLink.href = "";
+                infoLink.textContent = "";
+            }
+
+            infoPanel.style.display = "block";
+        });
+
+        document.getElementById("closeInfo").addEventListener("click", () => {
+            document.getElementById("infoPanel").style.display = "none";
+        });
+
+        // Zoom functionality
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 5])
+            .on("zoom", (event) => {
+                svg.attr("transform", event.transform);
+            });
+
+        d3.select("svg").call(zoom);
+    </script>
+</body>
+</html>
