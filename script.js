@@ -6,11 +6,25 @@ document.addEventListener('DOMContentLoaded', () => {
         name: "Stacks Ecosystem",
         children: [
             {
+                name: "Core Infrastructure",
+                children: [
+                    { name: "Stacks Blockchain", url: "https://www.stacks.co/" },
+                    { name: "Clarity Smart Contracts", url: "https://clarity-lang.org/" },
+                    { name: "Proof of Transfer (PoX)", url: "https://docs.stacks.co/understand-stacks/proof-of-transfer" },
+                    { name: "Stacks 2.0", url: "https://www.stacks.co/stacks-2" },
+                    { name: "Nakamoto Release", url: "https://stacks.org/nakamoto" },
+                    { name: "sBTC", url: "https://www.stacks.co/sbtc" }
+                ]
+            },
+            {
                 name: "Wallets",
                 children: [
                     { name: "Xverse", url: "https://www.xverse.app/" },
                     { name: "Hiro Wallet", url: "https://wallet.hiro.so/" },
-                    { name: "Stack Wallet", url: "https://stackswallet.com/" }
+                    { name: "Stack Wallet", url: "https://stackswallet.com/" },
+                    { name: "Leather", url: "https://leather.io/" },
+                    { name: "MyStacks Wallet", url: "https://www.mystacks.xyz/" },
+                    { name: "Boom Wallet", url: "https://boom.money/" }
                 ]
             },
             {
@@ -19,7 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     { name: "Binance", url: "https://www.binance.com/en/trade/STX_USDT" },
                     { name: "OKX", url: "https://www.okx.com/trade-spot/stx-usdt" },
                     { name: "Bybit", url: "https://www.bybit.com/en-US/trade/spot/STX/USDT" },
-                    { name: "KuCoin", url: "https://www.kucoin.com/trade/STX-USDT" }
+                    { name: "KuCoin", url: "https://www.kucoin.com/trade/STX-USDT" },
+                    { name: "Gate.io", url: "https://www.gate.io/trade/STX_USDT" },
+                    { name: "Crypto.com", url: "https://crypto.com/exchange/trade/spot/STX_USDT" },
+                    { name: "Bitfinex", url: "https://trading.bitfinex.com/t/STX:USD" },
+                    { name: "Huobi", url: "https://www.huobi.com/en-us/exchange/stx_usdt" },
+                    { name: "Kraken", url: "https://www.kraken.com/prices/stx-stacks-price-chart/usd-us-dollar?interval=1m" }
                 ]
             },
             {
@@ -28,7 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     { name: "ALEX", url: "https://www.alexgo.io/" },
                     { name: "Arkadiko", url: "https://arkadiko.finance/" },
                     { name: "Zest Protocol", url: "https://zestprotocol.com/" },
-                    { name: "LNSwap", url: "https://lnswap.org/" }
+                    { name: "LNSwap", url: "https://lnswap.org/" },
+                    { name: "Lydian", url: "https://lydian.xyz/" },
+                    { name: "Stackswap", url: "https://stackswap.org/" },
+                    { name: "Catamaran Swaps", url: "https://www.catamaranswaps.org/" },
+                    { name: "Bitflow", url: "https://bitflow.finance/" },
+                    { name: "STSW Token", url: "https://www.stsw.io/" },
+                    { name: "Stacks Degens", url: "https://stacksdegens.com/" }
                 ]
             },
             {
@@ -36,7 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 children: [
                     { name: "Gamma", url: "https://gamma.io/" },
                     { name: "STXNFT", url: "https://stxnft.com/" },
-                    { name: "Tradeport", url: "https://www.tradeport.xyz/" }
+                    { name: "Tradeport", url: "https://www.tradeport.xyz/" },
+                    { name: "Byzantion", url: "https://byzantion.xyz/" },
+                    { name: "Megapont", url: "https://megapont.com/" },
+                    { name: "StacksArt", url: "https://www.stacksart.com/" },
+                    { name: "Boom", url: "https://boom.money/" },
+                    { name: "Sigle", url: "https://www.sigle.io/" },
+                    { name: "Crashpunks", url: "https://crashpunks.com/" },
+                    { name: "Stacks Punks", url: "https://stackspunks.com/" }
                 ]
             },
             {
@@ -44,7 +76,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 children: [
                     { name: "Hiro", url: "https://www.hiro.so/" },
                     { name: "Stacks Foundation", url: "https://stacks.org/" },
-                    { name: "Secret Key Labs", url: "https://secretkeylabs.com/" }
+                    { name: "Secret Key Labs", url: "https://secretkeylabs.com/" },
+                    { name: "Trust Machines", url: "https://trustmachines.co/" },
+                    { name: "Daemon Technologies", url: "https://daemontechnologies.co/" },
+                    { name: "Freehold", url: "https://joinfreehold.com/" },
+                    { name: "New Internet Labs", url: "https://newinternetlabs.com/" },
+                    { name: "Mechanism Capital", url: "https://www.mechanism.capital/" },
+                    { name: "Stacks Accelerator", url: "https://www.stacksaccelerator.com/" }
+                ]
+            },
+            {
+                name: "Developer Tools",
+                children: [
+                    { name: "Clarinet", url: "https://github.com/hirosystems/clarinet" },
+                    { name: "Stacks.js", url: "https://github.com/hirosystems/stacks.js" },
+                    { name: "Clarity Tools", url: "https://clarity.tools/" },
+                    { name: "Stacks Explorer", url: "https://explorer.stacks.co/" },
+                    { name: "Stacks API", url: "https://docs.hiro.so/api" },
+                    { name: "Chainhook", url: "https://chainhook.rs/" },
+                    { name: "Clarity VSCode Extension", url: "https://marketplace.visualstudio.com/items?itemName=HiroSystems.clarity-lsp" },
+                    { name: "Stacks Blockchain API", url: "https://docs.hiro.so/api" },
+                    { name: "Stacks Node", url: "https://docs.stacks.co/understand-stacks/running-mainnet-node" }
+                ]
+            },
+            {
+                name: "Education",
+                children: [
+                    { name: "Clarity Universe", url: "https://clarity-lang.org/universe" },
+                    { name: "Stacks Documentation", url: "https://docs.stacks.co/" },
+                    { name: "Stacks Academy", url: "https://stacks.academy/" },
+                    { name: "Learn Stacks", url: "https://learn.stacks.co/" },
+                    { name: "Clarity Book", url: "https://book.clarity-lang.org/" },
+                    { name: "Stacks Community", url: "https://community.stacks.org/" }
+                ]
+            },
+            {
+                name: "Governance",
+                children: [
+                    { name: "Stacks Governance", url: "https://stacks.org/governance" },
+                    { name: "Stacks Improvement Proposals (SIPs)", url: "https://github.com/stacksgov/sips" },
+                    { name: "Stacks Foundation Grants", url: "https://stacks.org/grants" }
+                ]
+            },
+            {
+                name: "Community",
+                children: [
+                    { name: "Stacks Discord", url: "https://discord.gg/stacks" },
+                    { name: "Stacks Forum", url: "https://forum.stacks.org/" },
+                    { name: "Stacks Telegram", url: "https://t.me/StacksChat" },
+                    { name: "Stacks Reddit", url: "https://www.reddit.com/r/stacks/" },
+                    { name: "Stacks Twitter", url: "https://twitter.com/Stacks" },
+                    { name: "Stacks YouTube", url: "https://www.youtube.com/c/Stacks" }
                 ]
             }
         ]
@@ -224,10 +306,15 @@ document.addEventListener('DOMContentLoaded', () => {
 let i = 0;
 
 const colorScheme = {
-    "Wallets": "#FF6B6B",
-    "Exchanges": "#4ECDC4",
-    "DeFi": "#45B7D1",
-    "NFTs": "#FFA500",
-    "Infrastructure": "#7FDBFF",
+    "Core Infrastructure": "#FF6B6B",
+    "Wallets": "#4ECDC4",
+    "Exchanges": "#45B7D1",
+    "DeFi": "#FFA500",
+    "NFTs": "#7FDBFF",
+    "Infrastructure": "#9B59B6",
+    "Developer Tools": "#2ECC71",
+    "Education": "#E74C3C",
+    "Governance": "#3498DB",
+    "Community": "#F39C12",
     "default": "#CCCCCC"
 };
