@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Specify the character encoding for the HTML document -->
     <meta charset="UTF-8">
+    <!-- Ensure proper rendering and touch zooming for all devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Set the title of the webpage -->
     <title>Basic D3 Visualization</title>
     <style>
+        /* CSS styles for the mobile button */
         #mobile-button {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            z-index: 1000;
+            position: fixed; /* Fix the button position on the screen */
+            bottom: 20px; /* Position 20px from the bottom */
+            left: 20px; /* Position 20px from the left */
+            padding: 10px 15px; /* Add some padding inside the button */
+            background-color: #007bff; /* Set button background color */
+            color: white; /* Set text color */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Add rounded corners */
+            cursor: pointer; /* Change cursor to pointer on hover */
+            font-size: 16px; /* Set font size */
+            z-index: 1000; /* Ensure button appears above other elements */
         }
 
+        /* Change button appearance on hover */
         #mobile-button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Darker blue on hover */
         }
     </style>
 </head>
 <body>
+    <!-- Container for the legend -->
     <div id="legend"></div>
+    <!-- Container for the main visualization -->
     <div id="visualization"></div>
+    <!-- Button to switch to mobile version -->
     <button id="mobile-button" onclick="window.location.href='index_mobile.html'">Mobile Version</button>
+    
+    <!-- Include D3.js library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Include your custom JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
