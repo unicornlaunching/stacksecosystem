@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stacks Ecosystem Mobile Map</title>
+    <!-- Include D3.js library for data visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
+        /* CSS styles for the page layout and visualization */
         body, html {
             margin: 0;
             padding: 0;
@@ -15,40 +17,50 @@
             width: 100%;
             overflow: hidden;
         }
+        /* Styles for the main visualization container */
         #visualization {
             width: 100%;
             height: 100%;
         }
+        /* Styles for the nodes in the visualization */
         .node circle {
             fill: #fff;
             stroke: steelblue;
             stroke-width: 2px;
         }
         .node text {
-            font: 10px sans-serif;
+            font: 12px sans-serif;
+            fill: #333;
         }
+        /* Styles for the links between nodes */
         .link {
             fill: none;
             stroke: #ccc;
             stroke-width: 1px;
         }
+        /* Styles for the information panel */
         #infoPanel {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: rgba(255, 255, 255, 0.9);
-            padding: 10px;
+            padding: 15px;
             display: none;
+            max-height: 50%;
+            overflow-y: auto;
         }
         #closeInfo {
             float: right;
             cursor: pointer;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
+    <!-- Main container for the visualization -->
     <div id="visualization"></div>
+    <!-- Information panel to display details about selected items -->
     <div id="infoPanel">
         <span id="closeInfo">×</span>
         <h3 id="infoTitle"></h3>
@@ -57,6 +69,7 @@
     </div>
 
     <script>
+        // Define the data structure for the Stacks ecosystem
         const data = {
             name: "Stacks Ecosystem",
             children: [
@@ -321,6 +334,7 @@
             ]
         };
 
+        // Define color scheme for different categories
         const colorScheme = {
             "Core Infrastructure": "#FF6B6B",
             "Wallets": "#4ECDC4",
@@ -336,9 +350,11 @@
             "default": "#CCCCCC"
         };
 
+        // Set up the dimensions for the visualization
         const width = window.innerWidth;
         const height = window.innerHeight;
 
+        // Create the SVG container for the visualization
         const svg = d3.select("#visualization")
             .append("svg")
             .attr("width", width)
@@ -346,49 +362,156 @@
             .append("g")
             .attr("transform", `translate(${width / 2},${height / 2})`);
 
-        const radius = Math.min(width, height) / 2 - 50;
+        // Calculate the radius for the radial tree
+        const radius = Math.min(width, height) / 2 - 80;
 
+        // Create the tree layout
         const tree = d3.tree()
             .size([2 * Math.PI, radius])
-            .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+            .separation((a, b) => (a.parent == b.parent ? 5 : 8) / a.depth);
 
-        const root = tree(d3.hierarchy(data));
+        // Create the root node of the tree
+        const root = d3.hierarchy(data);
+        root.descendants().forEach((d, i) => {
+            d.id = i;
+            d._children = d.children;
+            if (d.depth > 1) d.children = null;
+        });
 
-        const link = svg.append("g")
-            .selectAll("path")
-            .data(root.links())
-            .join("path")
-            .attr("class", "link")
-            .attr("d", d3.linkRadial()
-                .angle(d => d.x)
-                .radius(d => d.y));
+        // Function to update the visualization
+        function update(source) {
+            // Generate the tree data
+            const treeData = tree(root);
+            const nodes = treeData.descendants();
+            const links = treeData.links();
 
-        const node = svg.append("g")
-            .selectAll("g")
-            .data(root.descendants())
-            .join("g")
-            .attr("transform", d => `
-                rotate(${d.x * 180 / Math.PI - 90})
-                translate(${d.y},0)
-            `);
+            // Update the links
+            const link = svg.selectAll("path.link")
+                .data(links, d => d.target.id);
 
-        node.append("circle")
-            .attr("r", 4)
-            .attr("fill", d => colorScheme[d.data.name] || colorScheme.default);
+            // Enter new links
+            const linkEnter = link.enter().append("path")
+                .attr("class", "link")
+                .attr("d", d3.linkRadial()
+                    .angle(d => source.x0)
+                    .radius(d => source.y0));
 
-        node.append("text")
-            .attr("dy", "0.31em")
-            .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
-            .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
-            .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
-            .text(d => d.data.name)
-            .style("font-size", "8px")
-            .style("fill", "#333")
-            .clone(true).lower()
-            .attr("stroke", "white")
-            .attr("stroke-width", 3);
+            // Update existing links
+            const linkUpdate = linkEnter.merge(link);
 
-        node.on("click", (event, d) => {
+            // Transition links to their new position
+            linkUpdate.transition()
+                .duration(500)
+                .attr("d", d3.linkRadial()
+                    .angle(d => d.x)
+                    .radius(d => d.y));
+
+            // Remove old links
+            const linkExit = link.exit().transition()
+                .duration(500)
+                .attr("d", d3.linkRadial()
+                    .angle(d => source.x)
+                    .radius(d => source.y))
+                .remove();
+
+            // Update the nodes
+            const node = svg.selectAll("g.node")
+                .data(nodes, d => d.id);
+
+            // Enter new nodes
+            const nodeEnter = node.enter()
+                .append("g")
+                .attr("class", "node")
+                .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0)`)
+                .on("click", (event, d) => {
+                    // Toggle children on click
+                    event.stopPropagation();
+                    if (d.children) {
+                        d._children = d.children;
+                        d.children = null;
+                    } else {
+                        d.children = d._children;
+                        d._children = null;
+                    }
+                    update(d);
+                });
+
+            // Add circles to nodes
+            nodeEnter.append("circle")
+                .attr("r", 5)
+                .attr("fill", d => d._children ? "#555" : (colorScheme[d.data.name] || colorScheme.default));
+
+            // Add text labels to nodes
+            const textEnter = nodeEnter.append("text")
+                .attr("dy", "0.31em")
+                .attr("x", d => d.x < Math.PI === !d.children ? 8 : -8)
+                .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+                .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+                .style("font-size", "10px")
+                .style("cursor", "pointer");
+
+            textEnter.append("tspan")
+                .text(d => d.data.name)
+                .on("click", (event, d) => {
+                    // Open URL or show info panel on text click
+                    event.stopPropagation();
+                    if (d.data.url) {
+                        window.open(d.data.url, "_blank");
+                    } else {
+                        showInfoPanel(d);
+                    }
+                });
+
+            // Add a white background to text for better readability
+            textEnter.clone(true).lower()
+                .attr("stroke", "white")
+                .attr("stroke-width", 3);
+
+            // Update existing nodes
+            node.merge(nodeEnter)
+                .transition()
+                .duration(500)
+                .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0)`);
+
+            // Update node colors
+            node.select("circle")
+                .attr("fill", d => d._children ? "#555" : (colorScheme[d.data.name] || colorScheme.default));
+
+            // Remove old nodes
+            node.exit().remove();
+
+            // Store the old positions for transitions
+            nodes.forEach(d => {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+        }
+
+        // Initialize the visualization
+        root.x0 = 0;
+        root.y0 = 0;
+        update(root);
+
+        // Add zoom functionality
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 5])
+            .on("zoom", (event) => {
+                svg.attr("transform", event.transform);
+            });
+
+        d3.select("svg").call(zoom);
+
+        // Set initial zoom level
+        const initialScale = 0.8;
+        svg.attr("transform", `scale(${initialScale})`);
+
+        // Add functionality to close the info panel
+        document.getElementById("closeInfo").addEventListener("click", () => {
+            document.getElementById("infoPanel").style.display = "none";
+        });
+
+        // Function to show the info panel with node details
+        function showInfoPanel(d) {
             const infoPanel = document.getElementById("infoPanel");
             const infoTitle = document.getElementById("infoTitle");
             const infoDescription = document.getElementById("infoDescription");
@@ -406,20 +529,7 @@
             }
 
             infoPanel.style.display = "block";
-        });
-
-        document.getElementById("closeInfo").addEventListener("click", () => {
-            document.getElementById("infoPanel").style.display = "none";
-        });
-
-        // Zoom functionality
-        const zoom = d3.zoom()
-            .scaleExtent([0.5, 5])
-            .on("zoom", (event) => {
-                svg.attr("transform", event.transform);
-            });
-
-        d3.select("svg").call(zoom);
+        }
     </script>
 </body>
 </html>
