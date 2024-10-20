@@ -4,10 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic D3 Visualization</title>
+    <style>
+        #mobile-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        #mobile-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <div id="legend"></div>
     <div id="visualization"></div>
+    <button id="mobile-button" onclick="window.location.href='index_mobile.html'">Mobile Version</button>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>
 </body>
