@@ -216,6 +216,26 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ]
                             },
                             {
+                                name: "LunarCrush",
+                                children: [
+                                            { name: "Draper Round Table / INCE Capital", description: "Lead investor" },
+                                            { name: "Blockchain Founders Fund", description: "Significant contributor" },
+                                            { name: "Draper Associates", description: "Significant contributor" },
+                                            { name: "WWVentures", description: "Significant contributor" },
+                                            { name: "TRGC", description: "Significant contributor" },
+                                            { name: "Bitcoin Frontier Fund", description: "Significant contributor" },
+                                            { name: "Draper Goren Holm", description: "Significant contributor" },
+                                            { name: "Side Door Ventures", description: "Significant contributor" },
+                                            { name: "MoonPay", description: "Significant contributor" },
+                                            { name: "EMURGO", description: "Significant contributor" },
+                                            { name: "LBANK Labs", description: "Significant contributor" },
+                                            { name: "FUNFAIR Ventures", description: "Significant contributor" },
+                                            { name: "Techstars", description: "Significant contributor" },
+                                            { name: "David Bleznak", description: "Angel investor" },
+                                            { name: "Francisco Oliva-Velez Cancel", description: "Angel investor" }
+                                        ]
+                            },
+                            {
                                 name: "Other Project Investors",
                                 children: [
                                     { name: "Stacks Foundation", description: "Non-profit organization supporting Stacks ecosystem" },
